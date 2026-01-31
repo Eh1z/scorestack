@@ -6,11 +6,11 @@ const wss = new WebSocketServer({ port: 8080 });
 
 // Connection established
 wss.on('connection', (socket, request) => {
-    const ip = request.remoteAddress;
+    const ip = request.socket.remoteAddress;
 
     socket.on('message', (rawData) => {
-        console.log(`Received message from ${ip}: ${rawData}`);
         const message = rawData.toString()
+        console.log(`Received message from ${ip}: ${message}`);
 
         wss.clients.forEach((client) => {
             if(client.readyState === WebSocket.OPEN) {
