@@ -1,0 +1,27 @@
+{
+  "name": "sharpscore-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+ "dependencies": {
+    "nodemon": "^3.1.11",
+    "ws": "^8.19.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node --watch server.js",
+    "dev": "nodemon --watch server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eh1z/sharpscore-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Eh1z/sharpscore-api/issues"
+  },
+  "homepage": "https://github.com/Eh1z/sharpscore-api#readme"
+}
