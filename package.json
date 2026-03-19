@@ -1,27 +1,39 @@
 {
-  "name": "sharpscore-api",
+  "name": "scorestack-api",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
   "dependencies": {
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^0.45.1",
     "express": "^5.2.1",
     "nodemon": "^3.1.11",
+    "pg": "^8.20.0",
     "ws": "^8.19.0"
   },
   "scripts": {
     "start": "node  src/index.js",
-    "dev": "nodemon --watch src/index.js"
+    "dev": "nodemon --watch src/index.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:crud": "tsx src/index.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Eh1z/sharpscore-api.git"
+    "url": "git+https://github.com/Eh1z/scorestack-api.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/Eh1z/sharpscore-api/issues"
+    "url": "https://github.com/Eh1z/scorestack-api/issues"
   },
-  "homepage": "https://github.com/Eh1z/sharpscore-api#readme"
+  "homepage": "https://github.com/Eh1z/scorestack-api#readme",
+  "devDependencies": {
+    "@types/pg": "^8.18.0",
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
 }
