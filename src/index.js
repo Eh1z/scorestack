@@ -6,6 +6,7 @@ import { securityMiddleware } from './arcjet.js';
 
 // Route imports
 import {matchRouter} from "./routes/matches.js";
+import {commentaryRouter} from "./routes/commentary.js";
 
 // Initialize Express app
 const PORT = Number(process.env.PORT) || 8000;
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 
 // Router for /matches endpoint
 app.use("/matches", matchRouter);
+app.use("/matches/:id/commentary", commentaryRouter);
 
 
 // Attach WebSocket server and get broadcasting functions
