@@ -2,6 +2,7 @@
 import express  from  'express';
 import http from 'http';
 import { attachWebsocketServer } from './ws/wserver.js';
+import { securityMiddleware } from './arcjet.js';
 
 // Route imports
 import {matchRouter} from "./routes/matches.js";
@@ -16,10 +17,15 @@ const server = http.createServer(app);
 // Use JSON middleware
 app.use(express.json());
 
+// Apply security middleware
+app.use(securityMiddleware());
+
 // Root GET route
 app.get('/', (req, res) => {
 	res.json({ message: 'API is up and running!' });
 });
+
+
 // Router for /matches endpoint
 app.use("/matches", matchRouter);
 
