@@ -7,10 +7,9 @@ const arjectMode = process.env.ARCJET_MODE === "DRY_RUN" ? "DRY_RUN" : "LIVE";
 const arjectEnv = process.env.ARCJET_ENV || "production";
 
 if (!arjectKey) {
-  console.error(
-    "ARCJET_KEY is not set or is empty. Please set it in your environment variables.",
+  console.warn(
+    "ARCJET_KEY is not set or is empty. Arcjet protection is disabled and the server will run without Arcjet.",
   );
-  process.exit(1);
 }
 
 // HTTP Arcjet config - using more lenient rules since HTTP requests are generally less resource-intensive than WebSocket connections

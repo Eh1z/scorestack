@@ -14,11 +14,11 @@ const app = express();
 const server = http.createServer(app);
 
 
-// Use JSON middleware
-app.use(express.json());
-
 // Apply security middleware
 app.use(securityMiddleware());
+
+// Use JSON middleware
+app.use(express.json());
 
 // Root GET route
 app.get('/', (req, res) => {
