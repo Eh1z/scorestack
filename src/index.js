@@ -33,8 +33,9 @@ app.use("/matches/:id/commentary", commentaryRouter);
 
 
 // Attach WebSocket server and get broadcasting functions
-const { broadcastMatchCreated } = attachWebsocketServer(server);
+const { broadcastMatchCreated, broadcastCommentaryUpdate } = attachWebsocketServer(server);
 app.locals.broadcastMatchCreated = broadcastMatchCreated;
+app.locals.broadcastCommentaryUpdate = broadcastCommentaryUpdate;
 
 
 
