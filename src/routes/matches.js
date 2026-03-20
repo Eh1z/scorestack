@@ -11,8 +11,6 @@ export const matchRouter = Router();
 
 const MAX_LIMIT = 100;
 
-
-
 matchRouter.get("/", async (req, res) => {
   const parsedData = listMatchesQuerySchema.safeParse(req.query);
 
@@ -35,7 +33,7 @@ matchRouter.get("/", async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       error: "Failed to fetch matches",
-      details: error ,
+      details: error,
     });
   }
 });
@@ -53,21 +51,26 @@ matchRouter.post("/", async (req, res) => {
   const { homeScore, awayScore, startTime, endTime } = parsedData.data;
 
   try {
-    const [event] = await db.insert(matches).values({
-      ...parsedData.data,
-      startTime: new Date(startTime),
-      endTime: new Date(endTime),
-      homeScore: homeScore ?? 0,
-      awayScore: awayScore ?? 0,
-      status: getMatchStatus(new Date(startTime), new Date(endTime)),
-    });
+    const [event] = await db
+      .insert(matches)
+      .values({
+        ...parsedData.data,
+        startTime: new Date(startTime),
+        endTime: new Date(endTime),
+        homeScore: homeScore ?? 0,
+        awayScore: awayScore ?? 0,
+        status: getMatchStatus(new Date(startTime), new Date(endTime)),
+      })
+      .returning();
+
     res
       .status(201)
       .json({ message: "Match created successfully", data: event });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({
       error: "Failed to create match",
-      details: error,
+      details: error instanceof Error ? error.message : "Unknown error",
     });
   }
 });
