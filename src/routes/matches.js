@@ -44,7 +44,7 @@ matchRouter.post("/", async (req, res) => {
   if (!parsedData.success) {
     return res.status(400).json({
       error: "Invalid payload",
-      details: parsedData.error,
+      details: parsedData.error.issues,
     });
   }
 
@@ -62,6 +62,10 @@ matchRouter.post("/", async (req, res) => {
         status: getMatchStatus(new Date(startTime), new Date(endTime)),
       })
       .returning();
+
+      if(res.app.locals.broadcastMatchCreated){
+        res.app.locals.broadcastMatchCreated(event);
+      }
 
     res
       .status(201)
