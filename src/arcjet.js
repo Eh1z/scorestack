@@ -24,6 +24,7 @@ export const httpArcjetConfig = arjectKey
           mode: arjectMode,
           allow: [
             "CATEGORY:SEARCH_ENGINE",
+            
             "CATEGORY:PREVIEW",
           ],
         }),

@@ -5,7 +5,7 @@ import {
 } from "../validations/matches.ts";
 import { db } from "../db/db.ts";
 import { matches } from "../db/schema.ts";
-import { getMatchStatus } from "../utils/matchStatus.js";
+import { getMatchStatus } from "../utils/matchStatus.ts";
 
 export const matchRouter = Router();
 
