@@ -1,46 +1,61 @@
-
 import { WebSocket, WebSocketServer } from "ws";
 
-function sendJson(socket, payload){
-    if(socket.readyState !== WebSocket.OPEN) return;
+function sendJson(socket, payload) {
+  if (socket.readyState !== WebSocket.OPEN) return;
 
-
-    socket.send(JSON.stringify(payload));
+  socket.send(JSON.stringify(payload));
 }
 
-
-function broadcast(wss, payload){
-
-    for (const client of wss.clients) {
-            if(client.readyState !== WebSocket.OPEN) return;
-
+function broadcast(wss, payload) {
+  for (const client of wss.clients) {
+    if (client.readyState !== WebSocket.OPEN) continue;
 
     client.send(JSON.stringify(payload));
-    }
+  }
 }
 
+export function attachWebsocketServer(server) {
+  const wsServer = new WebSocketServer({
+    server,
+    path: "/ws",
+    maxPayload: 1024 * 1024,
+  });
 
-export function attachWebsocketServer(server){
+  wsServer.on("connection", (ws) => {
+    ws.isAlive = true;
+    ws.on("pong", () => {
+      ws.isAlive = true;
+    });
 
-    const wsServer = new WebSocketServer({ server, path: "/ws", maxPayload: 1024 * 1024  });
+    sendJson(ws, { message: "Welcome to the ScoreStack WebSocket server!" });
 
-    wsServer.on("connection", (ws) => {
-        sendJson(ws, { message: "Welcome to the ScoreStack WebSocket server!" });
+    const heartbeatInterval = setInterval(() => {
+      wsServer.clients.forEach((client) => {
+        if (client.isAlive === false) {
+          console.log("Terminating unresponsive WebSocket client");
+          return client.terminate();
+        }
 
-        ws.on("close", () => {
-            console.log("Websocket Client disconnected");
-        });
+        client.isAlive = false;
+        client.ping();
+      });
+    }, 30000);
 
-        ws.on("error", (error) => {
-            console.error("WebSocket error:", error);
-        });
-    })
+    ws.on("close", () => {
+      console.log("Websocket Client disconnected");
+      clearInterval(heartbeatInterval);
+    });
 
-    function broadcastMatchCreated(match) {
-        broadcast(wsServer, { type: "match_created", data: match });
-    }
+    ws.on("error", (error) => {
+      console.error("WebSocket error:", error);
+    });
+  });
 
-    return {
-        broadcastMatchCreated,
-    }
+  function broadcastMatchCreated(match) {
+    broadcast(wsServer, { type: "match_created", data: match });
+  }
+
+  return {
+    broadcastMatchCreated,
+  };
 }
