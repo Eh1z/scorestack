@@ -16,7 +16,7 @@ const app = express();
 const server = http.createServer(app);
 
 // Apply security middleware
-app.use(securityMiddleware());
+// app.use(securityMiddleware());
 
 // Use JSON middleware
 app.use(express.json());

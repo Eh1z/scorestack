@@ -20,7 +20,8 @@
     "dev": "nodemon --watch src --ext js,mjs,cjs,ts --exec node src/index.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:crud": "tsx src/index.ts"
+    "db:crud": "tsx src/index.ts",
+    "seed": "node src/seed/seed.js"
   },
   "repository": {
     "type": "git",
