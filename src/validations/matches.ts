@@ -26,17 +26,14 @@ export const matchIdParamSchema = z.object({
   id: z.coerce.number().int().positive(),
 });
 
+
 export const createMatchSchema = z
   .object({
     sport: z.string().trim().min(1),
     homeTeam: z.string().trim().min(1),
     awayTeam: z.string().trim().min(1),
-    startTime: z
-      .string()
-      .refine(isValidIsoDateString, 'startTime must be a valid ISO date string'),
-    endTime: z
-      .string()
-      .refine(isValidIsoDateString, 'endTime must be a valid ISO date string'),
+    startTime: z.iso.datetime().describe('startTime must be a valid ISO date string'),
+    endTime: z.iso.datetime().describe('endTime must be a valid ISO date string'),
     homeScore: z.coerce.number().int().nonnegative().optional(),
     awayScore: z.coerce.number().int().nonnegative().optional(),
   })
